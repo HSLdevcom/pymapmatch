@@ -325,7 +325,7 @@ WayRole busway_filter(const readosm_way *way) {
 		if(string("ferry").compare(way->tags[i].key) == 0)
 			ferry = way->tags[i].value;
 	}
-		
+
 	if(!(busway || highway || ferry)) return WayRoleIgnore;
 	if(!highway) return WayRoleTwoWay;
 
@@ -333,7 +333,7 @@ WayRole busway_filter(const readosm_way *way) {
 	if(string("cycleway").compare(highway) == 0) return WayRoleIgnore;
 	if(string("steps").compare(highway) == 0) return WayRoleIgnore;
 	if(string("path").compare(highway) == 0) return WayRoleIgnore;
-	if(string("construction").compare(highway) == 0) return WayRoleIgnore;
+	if(string("construction").compare(highway) == 0) return WayRoleTwoWay;
 	if(string("proposed").compare(highway) == 0) return WayRoleIgnore;
 	if(string("bridleway").compare(highway) == 0) return WayRoleIgnore;
 
@@ -372,7 +372,7 @@ WayRole tram_filter(const readosm_way *way) {
 	};
 
 	if(!railway) return WayRoleIgnore;
-	if(string("tram").compare(railway) != 0) return WayRoleIgnore;
+	if(string("tram").compare(railway) != 0 && string("construction").compare(railway) != 0) return WayRoleIgnore;
 	if(oneway && string(oneway).compare("yes") == 0) return WayRoleOneWay;
 	return WayRoleTwoWay;
 }
